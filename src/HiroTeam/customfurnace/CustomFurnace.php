@@ -5,6 +5,7 @@ namespace HiroTeam\customfurnace;
 use pocketmine\event\Listener;
 use pocketmine\inventory\FurnaceRecipe;
 use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
 use pocketmine\network\mcpe\protocol\CraftingDataPacket;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -13,15 +14,15 @@ use pocketmine\utils\Config;
 class CustomFurnace extends PluginBase implements Listener
 {
 
-    public function onEnable()
+    public function onEnable(): void
     {
-        $this -> getServer() -> getPluginManager() -> registerEvents($this, $this);
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
-        @mkdir($this -> getDataFolder());
-        if (! file_exists($this -> getDataFolder() . "config.yml")) {
-            $this -> saveResource('config.yml');
+        @mkdir($this->getDataFolder());
+        if (!file_exists($this->getDataFolder() . "config.yml")) {
+            $this->saveResource('config.yml');
         }
-        $this -> furnaceDataCache();
+        $this->furnaceDataCache();
     }
     public function furnaceDataCache(): void{
 
@@ -46,7 +47,7 @@ class CustomFurnace extends PluginBase implements Listener
     }
     public function getItem(array $item) : Item
     {
-        $result = Item::get($item[0],$item[1]);
+        $result = ItemFactory::getInstance()->get($item[0], $item[1]);
         return $result;
     }
 
